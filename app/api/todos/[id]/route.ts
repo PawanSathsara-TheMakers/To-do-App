@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma'
 
 export async function PUT(
   request: NextRequest,
-  context
+  context: { params: { id: string } }
 ) {
   try {
     const body = await request.json()
@@ -29,7 +29,7 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  context
+  context: { params: { id: string } }
 ) {
   try {
     await prisma.todo.delete({
