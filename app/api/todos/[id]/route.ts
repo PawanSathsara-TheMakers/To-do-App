@@ -3,14 +3,14 @@ import { prisma } from '@/lib/prisma'
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  params: { params: { id: string } }
 ) {
   try {
     const body = await request.json()
     const { title, description, completed } = body
 
     const todo = await prisma.todo.update({
-      where: { id: params.id },
+      where: { id: params.params.id },
       data: {
         title,
         description,
@@ -19,7 +19,7 @@ export async function PUT(
     })
 
     return NextResponse.json(todo)
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to update todo' },
       { status: 500 }
@@ -29,15 +29,15 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  params: { params: { id: string } }
 ) {
   try {
     await prisma.todo.delete({
-      where: { id: params.id }
+      where: { id: params.params.id }
     })
 
     return NextResponse.json({ message: 'Todo deleted successfully' })
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to delete todo' },
       { status: 500 }
