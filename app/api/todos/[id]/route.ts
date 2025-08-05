@@ -3,14 +3,14 @@ import { prisma } from '@/lib/prisma'
 
 export async function PUT(
   request: NextRequest,
-  params: { params: { id: string } }
+  context
 ) {
   try {
     const body = await request.json()
     const { title, description, completed } = body
 
     const todo = await prisma.todo.update({
-      where: { id: params.params.id },
+      where: { id: context.params.id },
       data: {
         title,
         description,
@@ -29,11 +29,11 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  params: { params: { id: string } }
+  context
 ) {
   try {
     await prisma.todo.delete({
-      where: { id: params.params.id }
+      where: { id: context.params.id }
     })
 
     return NextResponse.json({ message: 'Todo deleted successfully' })
